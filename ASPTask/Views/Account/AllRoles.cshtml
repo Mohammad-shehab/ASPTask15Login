@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Role>
+@{
+    ViewData["Title"] = "Roles";
+}
+
+
+<div style="width: 50%; margin: auto; text-align: center; margin-top: 20px;">
+    <a asp-action="AddRole" class="btn btn-primary btn-sm" style="margin-bottom: 20px;">Add Roles</a>
+</div>
+
+<table class="styled-table">
+    <tr>
+        <th>@Html.DisplayNameFor(m => m.RoleId)</th>
+        <th>@Html.DisplayNameFor(m => m.RoleName)</th>
+    </tr>
+    @foreach (var rrr in Model)
+    {
+        <tr>
+            <td>@rrr.RoleId</td>
+            <td>@rrr.RoleName</td>
+        </tr>
+    }
+</table>
+
+<style>
+    .styled-table {
+        width: 50%;
+        margin: auto;
+        border-collapse: collapse;
+    }
+
+        .styled-table th, .styled-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .styled-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .styled-table tr:hover {
+            background-color: #ddd;
+        }
+
+        .styled-table th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+</style>

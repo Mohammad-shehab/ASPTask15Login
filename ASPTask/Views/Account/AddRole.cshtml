@@ -1,0 +1,39 @@
+﻿@model Role
+@{
+    ViewData["Title"] = "AddRoles";
+}
+
+<h1>Add Role</h1>
+
+
+
+<form asp-action="AddRole" method="post">
+  
+
+    <table class="table table-bordered">
+
+        <tr>
+            <td><label asp-for="RoleName"> Role Name </label> </td>
+            <td>
+                <input asp-for="RoleName" class="form-control" />
+                <span class="alert-danger" asp-validation-for="RoleName"></span>
+            </td>
+        </tr>
+        <tr>
+
+            <td colspan="2">
+                <input type="submit" class="btn btn-success" value="Save" />
+                <a asp-action="AllRoles" class="btn btn-secondary"> Cancel</a>
+            </td>
+        </tr>
+
+
+    </table>
+</form>
+@section scripts {
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+}
