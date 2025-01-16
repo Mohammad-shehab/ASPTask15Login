@@ -3,6 +3,7 @@ using ASPTask.Data;
 using ASPTask.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace ASPTask.Controllers
@@ -25,7 +26,7 @@ namespace ASPTask.Controllers
 
         public IActionResult AllUsers()
         {
-            return View(db.Users);
+            return View(db.Users.Include(u => u.Role));
         }
 
 
@@ -87,22 +88,24 @@ namespace ASPTask.Controllers
         public IActionResult Login(User model)
         {
             
-                var user = db.Users.Where(u => u.Email == model.Email && u.Password == model.Password).FirstOrDefault();
+                var user = db.Users.Include(x=>x.Role).Where(u => u.Email == model.Email && u.Password == model.Password).FirstOrDefault();
 
                 if (user != null)
                 {
-                    return RedirectToAction("Welcome", new { id = user.UserId, email = user.Email, name = user.UserName });
+                    return RedirectToAction("Welcome", new { id = user.UserId, email = user.Email, name = user.UserName,Role=user.Role.RoleName });
                 }
                 ModelState.AddModelError("", "Invalid email or password");
             
             return View(model);
         }
 
-        public IActionResult Welcome(Guid id, string email, string name)
+        public IActionResult Welcome(Guid id, string email, string name,string role)
         {
             ViewBag.UserId = id;
             ViewBag.Email = email;
             ViewBag.UserName = name;
+            ViewBag.Role = role;
+
             return View();
         }
 
