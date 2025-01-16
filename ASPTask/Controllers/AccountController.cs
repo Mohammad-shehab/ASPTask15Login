@@ -1,9 +1,11 @@
 ﻿using System;
 using ASPTask.Data;
 using ASPTask.Models;
+using ASPTask.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace ASPTask.Controllers
@@ -78,6 +80,39 @@ namespace ASPTask.Controllers
             return View(xxx);
         }
 
+
+
+
+        public IActionResult Registerconf()
+        {
+            ViewBag.Depts = new SelectList(db.Roles, "RoleId", "RoleName");
+
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Registerconf(RegisterViewModel xxx)
+        {
+            User em = new User
+            {
+                UserName = xxx.UserName,
+                Email = xxx.Email,
+                Password = xxx.Password,
+                RoleId = xxx.RoleId
+            };
+
+            if (ModelState.IsValid)
+            {
+                db.Users.Add(em);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Depts = new SelectList(db.Roles, "RoleId", "RoleName");
+            return View(xxx);
+        }
+
+        
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -108,6 +143,50 @@ namespace ASPTask.Controllers
 
             return View();
         }
+
+
+        [HttpGet]
+        public IActionResult Loginv()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Loginv(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = db.Users.Include(x => x.Role).FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
+
+            if (user != null)
+            {
+                return RedirectToAction("Welcomev", new { id = user.UserId });
+            }
+            ModelState.AddModelError("", "Invalid email or password");
+
+            return View(model);
+        }
+
+
+        public IActionResult Welcomev(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = db.Users.Include(x => x.Role).FirstOrDefault(u => u.UserId == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+
 
 
 

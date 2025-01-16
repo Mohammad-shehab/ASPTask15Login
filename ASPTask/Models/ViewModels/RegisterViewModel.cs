@@ -1,14 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
-namespace ASPTask.Models
+namespace ASPTask.Models.ViewModels
 {
-    public class User
+    public class RegisterViewModel
     {
-        //Each User has attributes like Id, Name, Email, Password, and a RoleId
-
-        [Display(Name = "User ID")]
-        public Guid UserId { get; set; }
+      
 
 
         [Display(Name = "UserName")]
@@ -27,10 +25,27 @@ namespace ASPTask.Models
 
 
 
+        [Required(ErrorMessage = "Enter Confirm Password")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password ")]
+        [Compare("Password", ErrorMessage = "Password and Confirm Password do not match")]
+        public string ConfirmPassword { get; set; }
+
+
+
+
         [Display(Name = "Email Address")]
         [Required(ErrorMessage = "Enter Email")]
         [EmailAddress]
         public string Email { get; set; }
+
+
+
+        [Required(ErrorMessage ="Enter Confirm Email")]
+        [EmailAddress]
+        [Display(Name ="Confirm Email Address")]
+        [Compare("Email",ErrorMessage ="Email and Confirm Email do not match")]
+        public string ConfirmEmail { get; set; }
 
 
 
@@ -41,6 +56,5 @@ namespace ASPTask.Models
         [ForeignKey("Role")]
         public int RoleId { get; set; }
         public Role? Role { get; set; }
-
     }
 }

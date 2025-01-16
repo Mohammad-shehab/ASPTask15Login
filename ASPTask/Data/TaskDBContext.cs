@@ -2,6 +2,7 @@
 
 
 using ASPTask.Models;
+using ASPTask.Models.ViewModels;
 
 namespace ASPTask.Data
 {
