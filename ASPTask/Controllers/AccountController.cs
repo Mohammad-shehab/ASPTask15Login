@@ -68,7 +68,6 @@ namespace ASPTask.Controllers
         {
             if (ModelState.IsValid)
             {
-                ViewBag.Depts = new SelectList(db.Roles, "RoleId", "RoleName");
                 db.Users.Add(xxx);
                 db.SaveChanges();
                 return RedirectToAction("Index");
