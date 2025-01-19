@@ -1,0 +1,47 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "AddProduct";
+}
+
+<h1>Add Product</h1>
+
+
+
+<form asp-action="AddProduct" method="post">
+
+
+    <table class="table table-bordered">
+
+        <tr>
+            <td><label asp-for="ProductName"> Product Name </label> </td>
+            <td>
+                <input asp-for="ProductName" class="form-control" />
+                <span class="alert-danger" asp-validation-for="ProductName"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="Price"> Product Name </label> </td>
+            <td>
+                <input asp-for="Price" class="form-control" />
+                <span class="alert-danger" asp-validation-for="Price"></span>
+            </td>
+        </tr>
+     
+        <tr>
+
+            <td colspan="2">
+                <input type="submit" class="btn btn-success" value="Save" />
+                <a asp-action="Index" asp-asp-controller="Product" class="btn btn-secondary"> Cancel</a>
+            </td>
+        </tr>
+
+
+    </table>
+</form>
+@section scripts {
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
+}

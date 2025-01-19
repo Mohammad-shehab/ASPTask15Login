@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<TaskDBContext>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("con1")); });
-
+builder.Services.AddSession(x=>x.IdleTimeout = TimeSpan.FromSeconds(15));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -19,7 +19,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();

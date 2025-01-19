@@ -151,23 +151,23 @@ namespace ASPTask.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Loginv(LoginViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var user = db.Users.Include(x => x.Role).FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
+        //[HttpPost]
+        //public IActionResult Loginv(LoginViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    var user = db.Users.Include(x => x.Role).FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
 
-            if (user != null)
-            {
-                return RedirectToAction("Welcomev", new { id = user.UserId });
-            }
-            ModelState.AddModelError("", "Invalid email or password");
+        //    if (user != null)
+        //    {
+        //        return RedirectToAction("Welcomev", new { id = user.UserId });
+        //    }
+        //    ModelState.AddModelError("", "Invalid email or password");
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
 
         public IActionResult Welcomev(Guid? id)
@@ -189,6 +189,28 @@ namespace ASPTask.Controllers
 
 
 
+
+        [HttpPost]
+        public IActionResult Loginv(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = db.Users.Include(x => x.Role).FirstOrDefault(u => u.Email == model.Email && u.Password == model.Password);
+
+            if (user != null)
+            {
+                // Add session
+                HttpContext.Session.SetString("UserId", user.UserId.ToString());
+                HttpContext.Session.SetString("UserName", user.UserName);
+
+                return RedirectToAction("Index", "Product");
+            }
+            ModelState.AddModelError("", "Invalid email or password");
+
+            return View(model);
+        }
 
 
 
